@@ -4,7 +4,6 @@ go 1.23
 
 require (
 	github.com/kbinani/screenshot v0.0.0-20250624051815-089614a94018
-	github.com/otiai10/gosseract/v2 v2.4.1
 	github.com/wailsapp/wails/v2 v2.11.0
 )
 

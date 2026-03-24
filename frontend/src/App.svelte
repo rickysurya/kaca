@@ -1,6 +1,11 @@
 <script>
   import { Translate } from "../wailsjs/go/main/App.js";
   import { CaptureRegion } from "../wailsjs/go/main/App.js";
+  import { WindowHide } from "../wailsjs/runtime/runtime.js";
+
+  function onKeyDown(e) {
+    if (e.key === "Escape") WindowHide();
+  }
 
   let inputText;
   let resultText = "";
@@ -9,39 +14,35 @@
   }
 
   let isDrawing = false;
-  let startX = 0, startY = 0;
-  let currentX = 0, currentY = 0;
-
+  let startX, startY;
   function onMouseDown(e) {
     isDrawing = true;
     startX = e.clientX;
     startY = e.clientY;
-    currentX = startX;
-    currentY = startY;
+    width = 0;
+    height = 0;
   }
 
+  let width, height;
+  let currentX, currentY;
+
   function onMouseMove(e) {
-    if (!isDrawing) {
-      return;
-    }
+    if (!isDrawing) return;
     currentX = e.clientX;
     currentY = e.clientY;
+    width = Math.abs(currentX - startX);
+    height = Math.abs(currentY - startY);
   }
 
   function onMouseUp(e) {
     isDrawing = false;
-    CaptureRegion(Math.floor(boxLeft), Math.floor(boxTop), Math.floor(boxWidth), Math.floor(boxHeight));
+    CaptureRegion(startX, startY, width, height);
   }
-
-  $: boxLeft = Math.min(startX, currentX);
-  $: boxTop = Math.min(startY, currentY);
-  $: boxWidth = Math.abs(currentX - startX);
-  $: boxHeight = Math.abs(currentY - startY);
 </script>
-
+<svelte:window on:keydown={onKeyDown}/>
 <main>
   <div
-    style="position:fixed; top:0; left:0; width:100vw; height:100vh; background-color: rgba(0,0,0,0.01);"
+    style="position:fixed; top:0; left:0; width:100vw; height:100vh;"
     on:mousedown={onMouseDown}
     on:mousemove={onMouseMove}
     on:mouseup={onMouseUp}
@@ -50,17 +51,16 @@
       <div
         style="
         position:fixed;
-        left:{boxLeft}px;
-        top:{boxTop}px;
-        width:{boxWidth}px;
-        height:{boxHeight}px;
+        left:{Math.min(startX, currentX)}px;
+        top:{Math.min(startY, currentY)}px;
+        width:{width}px;
+        height:{height}px;
         border: 2px solid white;
         pointer-events:none;
       "
       ></div>
     {/if}
   </div>
-  
   <div class="result" id="result" placeholder="">{resultText}</div>
 
   <div class="input-box" id="input">

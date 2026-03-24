@@ -18,19 +18,21 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "kaca",
-		Width:  1024,
-		Height: 768,
+		Title:       "kaca",
+		Width:       1920,
+		Height:      1080,
+		Frameless:   true,
+		StartHidden: false,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
 		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 0},
 		Windows: &windows.Options{
 			WebviewIsTransparent: true,
-			WindowIsTranslucent: true,
+			WindowIsTranslucent:  true,
+			DisableWindowIcon:    true,
 		},
-
-		OnStartup:        app.startup,
+		OnStartup: app.startup,
 		Bind: []interface{}{
 			app,
 		},

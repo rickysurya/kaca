@@ -22,3 +22,11 @@ body {
     height: 100vh;
     text-align: center;
 }
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    overflow: hidden;
+}
