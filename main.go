@@ -24,10 +24,10 @@ func main() {
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 255},
+		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 0},
 		Windows: &windows.Options{
 			WebviewIsTransparent: true,
-			WindowIsTranslucent: false,
+			WindowIsTranslucent: true,
 		},
 
 		OnStartup:        app.startup,

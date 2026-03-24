@@ -27,3 +27,5 @@ func (a *App) Translate(text string, targetLang string) string {
 	}
 	return result
 }
+
+
