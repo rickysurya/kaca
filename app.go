@@ -34,3 +34,22 @@ func (a *App) Translate(text string, targetLang string) string {
 func (a *App) CaptureRegion(x, y, width, height int) ([]byte, error) {
 	return captureRegion(x, y, width, height)
 }
+
+func (a *App) CaptureAndTranslate(x, y, width, height int, targetLang string) (string, error) {
+    imageBytes, err := captureRegion(x, y, width, height)
+    if err != nil {
+        return "", err
+    }
+
+    text, err := ocr(imageBytes)
+    if err != nil {
+        return "", err
+    }
+
+    translated, err := translate(text, targetLang)
+    if err != nil {
+        return "", err
+    }
+
+    return translated, nil
+}

@@ -1,12 +1,16 @@
 package main
 
+import (
+	"github.com/otiai10/gosseract/v2"
+)
 
-func ocr() (string, error) {
-	// client := gosseract.NewClient()
-	// defer client.Close()
-	// client.SetImage("path/to/image.png")
-	// text, _ := client.Text()
-	// fmt.Println(text)
-	// Hello, World!
-	return "", nil
+func ocr(imageBytes []byte) (string, error) {
+    client := gosseract.NewClient()
+    defer client.Close()
+    client.SetImageFromBytes(imageBytes)
+    text, err := client.Text()
+    if err != nil {
+        return "", err
+    }
+    return text, nil
 }

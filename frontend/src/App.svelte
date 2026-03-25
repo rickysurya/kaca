@@ -1,6 +1,6 @@
 <script>
   import { Translate } from "../wailsjs/go/main/App.js";
-  import { CaptureRegion } from "../wailsjs/go/main/App.js";
+  import { CaptureAndTranslate } from "../wailsjs/go/main/App.js";
   import { WindowHide } from "../wailsjs/runtime/runtime.js";
 
   function onKeyDown(e) {
@@ -36,7 +36,7 @@
 
   function onMouseUp(e) {
     isDrawing = false;
-    CaptureRegion(startX, startY, width, height);
+    CaptureAndTranslate(startX, startY, width, height);
   }
 </script>
 <svelte:window on:keydown={onKeyDown}/>
