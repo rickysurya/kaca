@@ -6,18 +6,19 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-// App struct
 type App struct {
 	ctx context.Context
+    targetLang string
 }
 
-// NewApp creates a new App application struct
 func NewApp() *App {
-	return &App{}
+	return &App{targetLang: "id"}
 }
 
-// startup is called when the app starts. The context is saved
-// so we can call the runtime methods
+func (a *App) setLanguage(lang string){
+    a.targetLang = lang
+}
+
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 	runtime.WindowFullscreen(ctx)

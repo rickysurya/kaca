@@ -1,59 +1,41 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 )
 
-type TranslateRequest struct {
-	Q      string `json:"q"`
-	Source string `json:"source"`
-	Target string `json:"target"`
-}
-type TranslateResponse struct {
-	TranslatedText string `json:"translatedText"`
-}
-
 func translate(inputText string, targetLanguage string) (string, error) {
-	url := "http://localhost:5000/translate"
-	jsonPayload, err := json.Marshal(TranslateRequest{
-		Q:      inputText,
-		Source: "auto",
-		Target: targetLanguage,
-	})
+	endpoint := fmt.Sprintf(
+		"https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=%s&dt=t&q=%s",
+		targetLanguage,
+		url.QueryEscape(inputText),
+	)
+
+	resp, err := http.Get(endpoint)
 	if err != nil {
 		return "", err
 	}
-
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonPayload))
-	if err != nil {
-		return "", err
-	}
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return "", err
-	}
-
 	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("translate API error: %s", resp.Status)
-	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", err
 	}
 
-	var output TranslateResponse
-	jsonErr := json.Unmarshal(body, &output)
-	if jsonErr != nil {
+	var result []interface{}
+	err = json.Unmarshal(body, &result)
+	if err != nil {
 		return "", err
 	}
-	return output.TranslatedText, nil
+
+	if len(result) == 0 {
+		return "", fmt.Errorf("empty translation result")
+	}
+
+	translated := result[0].([]interface{})[0].([]interface{})[0].(string)
+	return translated, nil
 }

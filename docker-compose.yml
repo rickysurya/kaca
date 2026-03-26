@@ -1,8 +1,0 @@
-services:
-  libretranslate:
-    image: libretranslate/libretranslate
-    ports:
-      - "5000:5000"
-    command: --load-only en,id,zh
-    restart: unless-stopped
-  
