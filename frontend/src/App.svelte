@@ -7,11 +7,7 @@
     if (e.key === "Escape") WindowHide();
   }
 
-  let inputText;
   let resultText = "";
-  function translate() {
-    Translate(inputText, "id").then((result) => (resultText = result));
-  }
 
   let isDrawing = false;
   let startX, startY;
@@ -33,19 +29,23 @@
     width = Math.abs(currentX - startX);
     height = Math.abs(currentY - startY);
   }
-
+  
+  let isLoading = false;
   function onMouseUp(e) {
     isDrawing = false;
     if (width > 5 && height > 5) {
+      isLoading = true;
       const captureX = Math.min(startX, currentX);
       const captureY = Math.min(startY, currentY);
       CaptureAndTranslate(captureX, captureY, width, height, "id")
         .then((result) => {
           resultText = result;
+          isLoading = false;
         })
         .catch((err) => {
           console.error("Full error:", err);
           resultText = "Error: " + JSON.stringify(err);
+          isLoading = false;
         });
     }
   }
@@ -73,14 +73,42 @@
       ></div>
     {/if}
   </div>
-  <div class="result" id="result" placeholder="">{resultText}</div>
-
+  <div class="result">
+    {#if isLoading}
+      <div class="spinner"></div>
+    {:else}
+      {resultText}
+    {/if}
+  </div>
 </main>
 
 <style>
   .result {
-    height: 20px;
-    line-height: 20px;
-    margin: 1.5rem auto;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.2rem;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 16px;
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  .spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 </style>
