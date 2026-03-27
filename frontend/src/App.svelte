@@ -29,7 +29,7 @@
     width = Math.abs(currentX - startX);
     height = Math.abs(currentY - startY);
   }
-  
+
   let isLoading = false;
   function onMouseUp(e) {
     isDrawing = false;
@@ -54,7 +54,7 @@
 <svelte:window on:keydown={onKeyDown} />
 <main>
   <div
-    style="position:fixed; top:0; left:0; width:100vw; height:100vh;"
+    style="position:fixed; top:0; left:0; width:100vw; height:100vh; cursor:crosshair;"
     on:mousedown={onMouseDown}
     on:mousemove={onMouseMove}
     on:mouseup={onMouseUp}
