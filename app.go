@@ -22,14 +22,7 @@ func (a *App) setLanguage(lang string){
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 	runtime.WindowFullscreen(ctx)
-}
-
-func (a *App) Translate(text string, targetLang string) string {
-	result, err := translate(text, targetLang)
-	if err != nil {
-		return "translation error"
-	}
-	return result
+    a.registerHotkey()
 }
 
 func (a *App) CaptureRegion(x, y, width, height int) ([]byte, error) {
@@ -54,3 +47,4 @@ func (a *App) CaptureAndTranslate(x, y, width, height int, targetLang string) (s
 
     return translated, nil
 }
+func (a *App) shutdown(ctx context.Context) {}

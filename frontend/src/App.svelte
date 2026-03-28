@@ -1,5 +1,4 @@
 <script>
-  import { Translate } from "../wailsjs/go/main/App.js";
   import { CaptureAndTranslate } from "../wailsjs/go/main/App.js";
   import { WindowHide } from "../wailsjs/runtime/runtime.js";
 

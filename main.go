@@ -33,6 +33,7 @@ func main() {
 			DisableWindowIcon:    true,
 		},
 		OnStartup: app.startup,
+		OnShutdown: app.shutdown,
 		Bind: []interface{}{
 			app,
 		},
