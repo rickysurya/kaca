@@ -9,7 +9,3 @@ export function CaptureAndTranslate(arg1, arg2, arg3, arg4, arg5) {
 export function CaptureRegion(arg1, arg2, arg3, arg4) {
   return window['go']['main']['App']['CaptureRegion'](arg1, arg2, arg3, arg4);
 }
-
-export function Translate(arg1, arg2) {
-  return window['go']['main']['App']['Translate'](arg1, arg2);
-}

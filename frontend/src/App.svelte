@@ -16,6 +16,7 @@
     startY = e.clientY;
     width = 0;
     height = 0;
+    resultText = "";
   }
 
   let width, height;

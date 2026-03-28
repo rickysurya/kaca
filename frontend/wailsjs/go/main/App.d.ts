@@ -4,5 +4,3 @@
 export function CaptureAndTranslate(arg1:number,arg2:number,arg3:number,arg4:number,arg5:string):Promise<string>;
 
 export function CaptureRegion(arg1:number,arg2:number,arg3:number,arg4:number):Promise<Array<number>>;
-
-export function Translate(arg1:string,arg2:string):Promise<string>;

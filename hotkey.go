@@ -1,8 +1,8 @@
 package main
 
 import (
-	"golang.design/x/hotkey"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
+	"golang.design/x/hotkey"
 )
 
 func (a *App) registerHotkey() {
@@ -13,7 +13,11 @@ func (a *App) registerHotkey() {
 	}
 	go func() {
 		for range hk.Keydown() {
-			runtime.WindowShow(a.ctx)
+			if runtime.WindowIsNormal(a.ctx) {
+				runtime.WindowHide(a.ctx)
+			} else {
+				runtime.WindowShow(a.ctx)
+			}
 		}
 	}()
 }

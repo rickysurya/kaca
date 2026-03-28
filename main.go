@@ -22,7 +22,7 @@ func main() {
 		Width:       1920,
 		Height:      1080,
 		Frameless:   true,
-		StartHidden: false,
+		StartHidden: true,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
