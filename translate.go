@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 func translate(inputText string, targetLanguage string) (string, error) {
@@ -36,6 +37,25 @@ func translate(inputText string, targetLanguage string) (string, error) {
 		return "", fmt.Errorf("empty translation result")
 	}
 
-	translated := result[0].([]interface{})[0].([]interface{})[0].(string)
-	return translated, nil
+	var parts []string
+	for i, items := range result[0].([]any) {
+		if items == nil {
+			continue
+		}
+		fmt.Println(i, items)
+		arr, ok := items.([]any)
+		if !ok || len(arr) == 0 {
+			continue
+		}
+		fmt.Println(i, arr)
+		text, ok := arr[0].(string)
+		if !ok {
+			continue
+		}
+		fmt.Print(i, text)
+
+		parts = append(parts, text)
+		fmt.Println(parts)
+	}
+	return strings.Join(parts, " "), nil
 }
